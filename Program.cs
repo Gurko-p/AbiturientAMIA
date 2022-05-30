@@ -11,9 +11,17 @@ namespace ConsoleApp2
         public int Id { get; set; }
         public string FIO { get; set; }
         public int Sex { get; set; }
-        public int Result { get; set; }
         public int Lgota { get; set; }
+        public short FirstCT { get; set; }
+        public short SecondCT { get; set; }
+        public short BallAttestat { get; set; }
+        public int Result { get; set; }
         public int[] Specialities { get; set; }
+        public short FirstProfBallAtt { get; set; }
+        public short SecondProfBallAtt { get; set; }
+        public bool Ideas100ForRB { get; set; }
+        public bool KindHearth { get; set; }
+        public bool MOOP { get; set; }
         public Abiturient() { }
         public Abiturient(Abiturient a)
         {
@@ -21,7 +29,7 @@ namespace ConsoleApp2
         }
         public int CompareTo(Abiturient a)
         {
-            return a.Result.CompareTo(Result);
+            return a.Result - Result;
         }
         public static bool Contains(Abiturient[] a, Abiturient b)
         {
@@ -52,47 +60,142 @@ namespace ConsoleApp2
             }
             return 0;
         }
-}
+    }
     class Program
     {
         static void Main(string[] args)
         {
-            //Dictionary<int, List<int>> lgots = new Dictionary<int, List<int>>
-            //{
-            //    [9] = new List<int> { 9999 },
-            //    [8] = new List<int> { 9999 },
-            //    [7] = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14 },
-            //    [6] = new List<int> { 6, 11, 13 },
-            //    [5] = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14 },
-            //    [4] = new List<int> { 9999 },
-            //    [3] = new List<int> { 3, 6, 11, 13 },
-            //    [2] = new List<int> { 9999 },
-            //    [1] = new List<int> { 9999 },
-            //};
+            Dictionary<int, List<int>> lgots = new Dictionary<int, List<int>>
+            {
+                [9] = new List<int> { 9999 },
+                [8] = new List<int> { 9999 },
+                [7] = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14 },
+                [6] = new List<int> { 6, 11, 13 },
+                [5] = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14 },
+                [4] = new List<int> { 9999 },
+                [3] = new List<int> { 3, 6, 11, 13 },
+                [2] = new List<int> { 9999 },
+                [1] = new List<int> { 9999 },
+            };
 
-            //List<Abiturient> ab = new List<Abiturient>
-            //{
-            //    new Abiturient { Id = 1, FIO = "Иванов", Sex = 1, Lgota = 1, Result = 180, Specialities = new int[]{ 2, 1 } }, // 2
-            //    new Abiturient { Id = 2, FIO = "Петров", Sex = 1, Lgota = 0, Result = 330, Specialities = new int[]{ 1, 0 } }, // 2
-            //    new Abiturient { Id = 3, FIO = "Сидоров", Sex = 1, Lgota = 2, Result = 181, Specialities = new int[]{ 1, 2 } }, // 2
-            //    new Abiturient { Id = 4, FIO = "Смирнов", Sex = 1, Lgota = 1, Result = 237, Specialities = new int[]{ 1, 2 } }, // 2
-            //    new Abiturient { Id = 5, FIO = "Хващевский", Sex = 1, Lgota = 2, Result = 280, Specialities = new int[]{ 1, 2 } }, // 2
-            //    new Abiturient { Id = 6, FIO = "Сидоров", Sex = 1, Lgota = 0, Result = 300, Specialities = new int[]{ 1, 2 } }, // 2
-            //    new Abiturient { Id = 7, FIO = "Сидоров", Sex = 1, Lgota = 0, Result = 320, Specialities = new int[]{ 1, 2 } }, // 2
-            //};
+            List<Abiturient> ab = new List<Abiturient>
+            {
+                new Abiturient
+                {
+                    Id = 1,
+                    FIO = "Иванов Иван Иванович",
+                    Sex = 1,
+                    Lgota = 9,
+                    FirstCT = 99,
+                    SecondCT = 99,
+                    BallAttestat = 99,
+                    Result = 297,
+                    Specialities = new int[]{ 1, 2 },
+                    FirstProfBallAtt = 8,
+                    SecondProfBallAtt = 9,
+                    Ideas100ForRB = true,
+                    KindHearth = true,
+                    MOOP = true,
+                },
+                new Abiturient
+                {
+                    Id = 2,
+                    FIO = "Петров Петр Петрович",
+                    Sex = 1,
+                    Lgota = 8,
+                    FirstCT = 99,
+                    SecondCT = 99,
+                    BallAttestat = 98,
+                    Result = 296,
+                    Specialities = new int[]{ 1, 2 },
+                    FirstProfBallAtt = 8,
+                    SecondProfBallAtt = 9,
+                    Ideas100ForRB = true,
+                    KindHearth = true,
+                    MOOP = true,
+                },
+                new Abiturient
+                {
+                    Id = 3,
+                    FIO = "Сидоров Сидор Сидорович",
+                    Sex = 1,
+                    Lgota = 7,
+                    FirstCT = 85,
+                    SecondCT = 55,
+                    BallAttestat = 60,
+                    Result = 200,
+                    Specialities = new int[]{ 1, 2 },
+                    FirstProfBallAtt = 6,
+                    SecondProfBallAtt = 7,
+                    Ideas100ForRB = false,
+                    KindHearth = false,
+                    MOOP = true,
+                },
+                new Abiturient
+                {
+                    Id = 4,
+                    FIO = "Степанов Степан Степанович",
+                    Sex = 1,
+                    Lgota = 7,
+                    FirstCT = 100,
+                    SecondCT = 50,
+                    BallAttestat = 75,
+                    Result = 225,
+                    Specialities = new int[]{ 1, 2 },
+                    FirstProfBallAtt = 8,
+                    SecondProfBallAtt = 9,
+                    Ideas100ForRB = true,
+                    KindHearth = true,
+                    MOOP = true,
+                },
+                new Abiturient
+                {
+                    Id = 5,
+                    FIO = "Макаров Макар Макарович",
+                    Sex = 1,
+                    Lgota = 7,
+                    FirstCT = 30,
+                    SecondCT = 60,
+                    BallAttestat = 55,
+                    Result = 145,
+                    Specialities = new int[]{ 1, 2 },
+                    FirstProfBallAtt = 6,
+                    SecondProfBallAtt = 6,
+                    Ideas100ForRB = true,
+                    KindHearth = true,
+                    MOOP = true,
+                },
+            };
+           
 
-            //ab.Sort();
+            ab.Sort();
 
-            //List<Abiturient> failed = new List<Abiturient>();
-            //List<int> success = new List<int>();
+            List<Abiturient> failed = new List<Abiturient>();
+            List<int> success = new List<int>();
 
-            //List<Abiturient> sp1 = new List<Abiturient>(3);
-            //List<Abiturient> sp2 = new List<Abiturient>(2);
-            //Dictionary<string, List<Abiturient>> dict = new Dictionary<string, List<Abiturient>>()
-            //{
-            //    ["sp1"] = sp1,
-            //    ["sp2"] = sp2,
-            //};
+            List<Abiturient> sp1 = new List<Abiturient>(4);
+            List<Abiturient> sp2 = new List<Abiturient>(4);
+            Dictionary<string, List<Abiturient>> abiturients = new Dictionary<string, List<Abiturient>>()
+            {
+                ["sp1"] = sp1,
+                ["sp2"] = sp2,
+            };
+
+            List<Abiturient> abiturientsLgota = ab.Where(a => a.Lgota >= 8).ToList();
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < abiturientsLgota.Count; j++)
+                {
+                    int sp = abiturientsLgota[j].Specialities[i];
+                    if (sp != 0 && (lgots[abiturientsLgota[j].Lgota].Contains(sp) || lgots[abiturientsLgota[j].Lgota].Contains(9999)))
+                    {
+                        Console.WriteLine(abiturientsLgota[j].FIO + " - " + abiturientsLgota[j].Result);
+                    }
+                    
+                }
+            }
+            
 
             //foreach (var num in lgots)
             //{
@@ -249,13 +352,99 @@ namespace ConsoleApp2
             //}
 
             //преимущественное право на зачисление при равном количестве баллов среди льготников
-            ArrayList arrayList1 = new ArrayList() { 9, 8, 7, 7, true, true, 85 };
-            ArrayList arrayList2 = new ArrayList() { 9, 8, 7, 7, true, true, 85 };
+            //ArrayList arrayList1 = new ArrayList() { 9, 8, 7, 7, true, true, 85 };
+            //ArrayList arrayList2 = new ArrayList() { 9, 8, 7, 7, true, true, 85 };
 
-            Console.WriteLine(Abiturient.CompareArrayLists(arrayList1, arrayList2));
+            //Console.WriteLine(Abiturient.CompareArrayLists(arrayList1, arrayList2));
 
             Console.ReadKey();
         }
     }
 }
 
+ //    new Abiturient
+            //    {
+            //        Id = 6,
+            //        FIO = "Сергеев Сергей Сергеевич",
+            //        Sex = 1,
+            //        Lgota = 0,
+            //        FirstCT = 100,
+            //        SecondCT = 50,
+            //        BallAttestat = 75,
+            //        Result = 225,
+            //        Specialities = new int[]{ 2, 1 },
+            //        FirstProfBallAtt = 8,
+            //        SecondProfBallAtt = 9,
+            //        Ideas100ForRB = true,
+            //        KindHearth = true,
+            //        MOOP = true,
+            //    },
+            //    new Abiturient
+            //    {
+            //        Id = 7,
+            //        FIO = "Павлов Павел Павлович",
+            //        Sex = 1,
+            //        Lgota = 0,
+            //        FirstCT = 100,
+            //        SecondCT = 50,
+            //        BallAttestat = 75,
+            //        Result = 225,
+            //        Specialities = new int[]{ 2, 1 },
+            //        FirstProfBallAtt = 8,
+            //        SecondProfBallAtt = 9,
+            //        Ideas100ForRB = true,
+            //        KindHearth = true,
+            //        MOOP = true,
+            //    },
+            //    new Abiturient
+            //    {
+            //        Id = 8,
+            //        FIO = "Прокопович Прокоп Прокопьевич",
+            //        Sex = 1,
+            //        Lgota = 0,
+            //        FirstCT = 100,
+            //        SecondCT = 50,
+            //        BallAttestat = 75,
+            //        Result = 225,
+            //        Specialities = new int[]{ 2, 1 },
+            //        FirstProfBallAtt = 8,
+            //        SecondProfBallAtt = 9,
+            //        Ideas100ForRB = true,
+            //        KindHearth = true,
+            //        MOOP = true,
+            //    },
+            //    new Abiturient
+            //    {
+            //        Id = 9,
+            //        FIO = "Игнатович Игнат Игнатович",
+            //        Sex = 1,
+            //        Lgota = 0,
+            //        FirstCT = 100,
+            //        SecondCT = 50,
+            //        BallAttestat = 75,
+            //        Result = 225,
+            //        Specialities = new int[]{ 2, 1 },
+            //        FirstProfBallAtt = 8,
+            //        SecondProfBallAtt = 9,
+            //        Ideas100ForRB = true,
+            //        KindHearth = true,
+            //        MOOP = true,
+            //    },
+            //    new Abiturient
+            //    {
+            //        Id = 10,
+            //        FIO = "Алексеев Алексей Алексеевич",
+            //        Sex = 1,
+            //        Lgota = 0,
+            //        FirstCT = 100,
+            //        SecondCT = 50,
+            //        BallAttestat = 75,
+            //        Result = 225,
+            //        Specialities = new int[]{ 2, 1 },
+            //        FirstProfBallAtt = 8,
+            //        SecondProfBallAtt = 9,
+            //        Ideas100ForRB = true,
+            //        KindHearth = true,
+            //        MOOP = true,
+            //    },
+            //};

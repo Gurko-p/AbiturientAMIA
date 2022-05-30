@@ -1,0 +1,16 @@
+D:\Abiturient\ConsoleApp2\ConsoleApp2\bin\Debug\net5.0\AbiturientAMIA.exe
+D:\Abiturient\ConsoleApp2\ConsoleApp2\bin\Debug\net5.0\AbiturientAMIA.deps.json
+D:\Abiturient\ConsoleApp2\ConsoleApp2\bin\Debug\net5.0\AbiturientAMIA.runtimeconfig.json
+D:\Abiturient\ConsoleApp2\ConsoleApp2\bin\Debug\net5.0\AbiturientAMIA.runtimeconfig.dev.json
+D:\Abiturient\ConsoleApp2\ConsoleApp2\bin\Debug\net5.0\AbiturientAMIA.dll
+D:\Abiturient\ConsoleApp2\ConsoleApp2\bin\Debug\net5.0\ref\AbiturientAMIA.dll
+D:\Abiturient\ConsoleApp2\ConsoleApp2\bin\Debug\net5.0\AbiturientAMIA.pdb
+D:\Abiturient\ConsoleApp2\ConsoleApp2\obj\Debug\net5.0\AbiturientAMIA.csproj.AssemblyReference.cache
+D:\Abiturient\ConsoleApp2\ConsoleApp2\obj\Debug\net5.0\AbiturientAMIA.GeneratedMSBuildEditorConfig.editorconfig
+D:\Abiturient\ConsoleApp2\ConsoleApp2\obj\Debug\net5.0\AbiturientAMIA.AssemblyInfoInputs.cache
+D:\Abiturient\ConsoleApp2\ConsoleApp2\obj\Debug\net5.0\AbiturientAMIA.AssemblyInfo.cs
+D:\Abiturient\ConsoleApp2\ConsoleApp2\obj\Debug\net5.0\AbiturientAMIA.csproj.CoreCompileInputs.cache
+D:\Abiturient\ConsoleApp2\ConsoleApp2\obj\Debug\net5.0\AbiturientAMIA.dll
+D:\Abiturient\ConsoleApp2\ConsoleApp2\obj\Debug\net5.0\ref\AbiturientAMIA.dll
+D:\Abiturient\ConsoleApp2\ConsoleApp2\obj\Debug\net5.0\AbiturientAMIA.pdb
+D:\Abiturient\ConsoleApp2\ConsoleApp2\obj\Debug\net5.0\AbiturientAMIA.genruntimeconfig.cache

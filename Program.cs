@@ -64,6 +64,44 @@ namespace ConsoleApp2
             return 0;
         }
 
+        public static int CompareLgotsPower(Abiturient ab1, Abiturient ab2)
+        {
+            if (ab1.Lgota > ab2.Lgota)
+            {
+                return 1;
+            }
+            else if (ab1.Lgota < ab2.Lgota)
+            {
+                return -1;
+            }
+            return 0;
+        }
+        public static Abiturient FindAbiturientWithLowerLgots(List<Abiturient> abs)
+        {
+            int count = abs.Where(a => a.Lgota == abs[0].Lgota).Count();
+            int min = 0;
+            Abiturient abiturientMin = null;
+            if (abs.Count == count)
+            {
+                Console.WriteLine("Льготы в списке абитуриентов равны!");
+                return null;
+            }
+            else if (count > 1)
+            {
+                min = abs[0].Lgota;
+                abiturientMin = abs[0];
+                for (int i = 0; i < abs.Count; i++)
+                {
+                    if (abs[i].Lgota < min)
+                    {
+                        min = abs[i].Lgota;
+                        abiturientMin = abs[i];
+                    }
+                }
+            }
+            return abiturientMin;
+        }
+
         public static int CompareWhenEqualAmountGeneral(Abiturient ab1, Abiturient ab2) // преимущественное право при зачислении на общих основаниях
         {
             ArrayList arrayList1 = new ArrayList()
@@ -93,7 +131,7 @@ namespace ConsoleApp2
                 ab2.MOOP
             };
             return CompareArrayLists(arrayList1, arrayList2);
-        } 
+        }
         public static int CompareWhenEqualAmountLgota24(Abiturient ab1, Abiturient ab2) // преимущественное право при зачислении по п. 24 Правил
         {
             ArrayList arrayList1 = new ArrayList()
@@ -122,7 +160,6 @@ namespace ConsoleApp2
             };
             return CompareArrayLists(arrayList1, arrayList2);
         }
-
         public static int CompareWhenEqualAmountLgota26(Abiturient ab1, Abiturient ab2) // преимущественное право при зачислении по п. 26 Правил
         {
             ArrayList arrayList1 = new ArrayList()
@@ -183,7 +220,7 @@ namespace ConsoleApp2
                     {
                         continue;
                     }
-                    else if(res == -1)
+                    else if (res == -1)
                     {
                         listToCompareMin = al.Value;
                         min = abs.FirstOrDefault(a => a.Id == al.Key);
@@ -215,6 +252,9 @@ namespace ConsoleApp2
                 [1] = new List<int> { 9999 },
             };
 
+
+
+
             List<Abiturient> ab = new List<Abiturient>
             {
                 new Abiturient
@@ -222,13 +262,13 @@ namespace ConsoleApp2
                     Id = 1,
                     FIO = "Иванов Иван Иванович",
                     Sex = 1,
-                    Lgota = 9,
+                    Lgota = 8,
                     FirstCT = 98,
                     SecondCT = 100,
                     BallAttestat = 98,
                     Result = 297,
                     Specialities = new int[]{ 1, 0 },
-                    FirstProfBallAtt = 9,
+                    FirstProfBallAtt = 10,
                     SecondProfBallAtt = 9,
                     RusBelSum = 14,
                     Ideas100ForRB = true,
@@ -241,10 +281,10 @@ namespace ConsoleApp2
                     FIO = "Петров Петр Петрович",
                     Sex = 1,
                     Lgota = 9,
-                    FirstCT = 99,
+                    FirstCT = 100,
                     SecondCT = 100,
-                    BallAttestat = 98,
-                    Result = 297,
+                    BallAttestat = 100,
+                    Result = 300,
                     Specialities = new int[]{ 1, 0 },
                     FirstProfBallAtt = 9,
                     SecondProfBallAtt = 9,
@@ -259,10 +299,10 @@ namespace ConsoleApp2
                     FIO = "Сидоров Сидор Сидорович",
                     Sex = 1,
                     Lgota = 9,
-                    FirstCT = 99,
+                    FirstCT = 100,
                     SecondCT = 100,
-                    BallAttestat = 98,
-                    Result = 297,
+                    BallAttestat = 100,
+                    Result = 300,
                     Specialities = new int[]{ 1, 0 },
                     FirstProfBallAtt = 9,
                     SecondProfBallAtt = 9,
@@ -312,7 +352,7 @@ namespace ConsoleApp2
             List<Abiturient> failed = new List<Abiturient>();
             List<int> success = new List<int>();
 
-            List<Abiturient> sp1 = new List<Abiturient>(2);
+            List<Abiturient> sp1 = new List<Abiturient>(1);
             List<Abiturient> sp2 = new List<Abiturient>(4);
             Dictionary<string, List<Abiturient>> abiturients = new Dictionary<string, List<Abiturient>>()
             {
@@ -322,7 +362,7 @@ namespace ConsoleApp2
 
 
 
-            List<Abiturient> abiturientsLgota = ab.Where(a => a.Lgota >= 8).ToList();
+            List<Abiturient> abiturientsLgota = ab.Where(a => a.Lgota >= 9).OrderByDescending(a => a.Lgota).ToList();
 
             for (int i = 0; i < 2; i++)
             {
@@ -342,12 +382,18 @@ namespace ConsoleApp2
                         }
                         else
                         {
-                            int minResSp = abiturients["sp" + sp].Min(a => a.FirstProfBallAtt); // находим минимальный балл по обществоведению в аттестате
-                            int countMinAbiturient = abiturients["sp" + sp].Where(a => a.FirstProfBallAtt == minResSp).Count(); // количество абитуриентов с минимальным баллом по обществоведению в аттестате
+
+                            int minResSp = abiturients["sp" + sp].Min(a => a.Result); // находим минимальный общий результат
+                            int countMinAbiturient = abiturients["sp" + sp].Where(a => a.Result == minResSp).Count(); // количество абитуриентов с минимальным баллом
                             if (countMinAbiturient == 1) // если количество абитуриентов на указанную специальность с минимальным баллом  равно 1
                             {
-                                Abiturient a = abiturients["sp" + sp].Where(a => a.FirstProfBallAtt == minResSp).LastOrDefault(); // находим абитуриента с минимальным баллом
-                                if (abiturientsLgota[j].FirstProfBallAtt >= minResSp && !success.Contains(abiturientsLgota[j].Id)) // если балл текущего абитуриента больше чем вышеуказанного и текущий абитуриент еще не зачислен
+                                Abiturient a = abiturients["sp" + sp].Where(a => a.Result == minResSp).LastOrDefault(); // находим абитуриента с минимальным баллом
+                                if (abiturientsLgota[j].Result > minResSp && !success.Contains(abiturientsLgota[j].Id)) // если балл текущего абитуриента больше чем вышеуказанного и текущий абитуриент еще не зачислен
+                                {
+                                    Methods<Abiturient>.RemoveLowerAddHigher(abiturients["sp" + sp], a, abiturientsLgota[j]); // заменяем абитуриента с меньшим баллом в списке зачисленных на абитуриента с высшим баллом
+                                    Methods<int>.RemoveLowerAddHigher(success, a.Id, abiturientsLgota[j].Id); // заменяем id абитуриента с меньшим баллом на id абитуриента с большим баллом в списке зачисленных
+                                }
+                                else if (abiturientsLgota[j].Result == minResSp && !success.Contains(abiturientsLgota[j].Id)) // если баллы абитуриентов равны, то сравниваем абитуриентов по правилам преимущественного зачисления
                                 {
                                     int res = Abiturient.CompareWhenEqualAmountLgota24(abiturientsLgota[j], a); // сравниваем все баллы абитуриентов
                                     if (res == 1) // если результат равен 1, то баллы текущего абитуриента выше, чем у абитуриента уже зачисленного
@@ -358,8 +404,8 @@ namespace ConsoleApp2
                                     }
                                     else if (res == 0)
                                     {
-                                        Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp + " у следующих абитуриентов:");
-                                        Console.WriteLine(abiturientsLgota[j].FIO + " " + abiturientsLgota[j].FirstProfBallAtt + " --- " + a.FIO + " - " + a.FirstProfBallAtt);
+                                        Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp);
+                                        Console.WriteLine(abiturientsLgota[j].FIO + " " + abiturientsLgota[j].Result + " --- " + a.FIO + " - " + a.Result);
                                         Console.Read();
                                     }
                                     else
@@ -370,34 +416,24 @@ namespace ConsoleApp2
                             }
                             else if (countMinAbiturient > 1)
                             {
-                                List<Abiturient> abiturientsWithMinBalls = abiturients["sp" + sp].Where(a => a.FirstProfBallAtt == minResSp).ToList(); // получаем список абитуриентов с минимальным баллом
+                                List<Abiturient> abiturientsWithMinBalls = abiturients["sp" + sp].Where(a => a.Result == minResSp).ToList(); // получаем список абитуриентов с минимальным баллом
 
                                 Abiturient a = Abiturient.FindAbiturientWithLowerBalls24(abiturientsWithMinBalls); // получаем абитуриента из списка с минимальным баллом после проверки по правилам преимущественного зачисления
-                                if (a != null) // если смогли определить абитуриента с меньшим баллом, то
+                                int res = Abiturient.CompareWhenEqualAmountLgota24(abiturientsLgota[j], a); // сравниваем текущего абитуриента с абитуриентом а
+                                if (res == 1) // если результат равен 1, то баллы текущего абитуриента выше, чем у абитуриента а
                                 {
-                                    int res = Abiturient.CompareWhenEqualAmountLgota24(abiturientsLgota[j], a); // сравниваем текущего абитуриента с абитуриентом а
-                                    if (res == 1) // если результат равен 1, то баллы текущего абитуриента выше, чем у абитуриента а
-                                    {
-                                        Methods<Abiturient>.RemoveLowerAddHigher(abiturients["sp" + sp], a, abiturientsLgota[j]); // заменяем абитуриента с меньшим баллом в списке зачисленных на абитуриента с высшим баллом
-                                        Methods<int>.RemoveLowerAddHigher(success, a.Id, abiturientsLgota[j].Id); // заменяем id абитуриента с меньшим баллом на id абитуриента с большим баллом в списке зачисленных                                                         
-                                    }
-                                    else if (res == 0)
-                                    {
-                                        Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp + " у следующих абитуриентов:");
-                                        Console.WriteLine(abiturientsLgota[j].FIO + " " + abiturientsLgota[j].FirstProfBallAtt + " --- " + a.FIO + " - " + a.FirstProfBallAtt);
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Меньше");
-                                    }
+                                    Methods<Abiturient>.RemoveLowerAddHigher(abiturients["sp" + sp], a, abiturientsLgota[j]); // заменяем абитуриента с меньшим баллом в списке зачисленных на абитуриента с высшим баллом
+                                    Methods<int>.RemoveLowerAddHigher(success, a.Id, abiturientsLgota[j].Id); // заменяем id абитуриента с меньшим баллом на id абитуриента с большим баллом в списке зачисленных                                                         
+                                }
+                                else if (res == 0)
+                                {
+                                    Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp);
+                                    Console.WriteLine(abiturientsLgota[j].FIO + " " + abiturientsLgota[j].Result + " --- " + a.FIO + " - " + a.Result);
+                                    Console.Read();
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp + " у следующих абитуриентов:");
-                                    for (int k = 0; k < abiturientsWithMinBalls.Count; k++)
-                                    {
-                                        Console.WriteLine(abiturientsWithMinBalls[k].FIO + " - " + abiturientsWithMinBalls[k].FirstProfBallAtt + ";");
-                                    }
+                                    Console.WriteLine("Меньше");
                                 }
                             }
                         }
@@ -424,71 +460,114 @@ namespace ConsoleApp2
             //            }
             //            else
             //            {
-            //                int minResSp = abiturients["sp" + sp].Min(a => a.Result); // находим минимальный общий результат
-            //                int countMinAbiturient = abiturients["sp" + sp].Where(a => a.Result == minResSp).Count(); // количество абитуриентов с минимальным баллом
-            //                if (countMinAbiturient == 1) // если количество абитуриентов на указанную специальность с минимальным баллом  равно 1
+            //                //сначала сравниваем льготы у абитуриентов, претендующих на 1 место
+
+            //                int minLgota = abiturients["sp" + sp].Min(a => a.Lgota); // находим минимальную льготу в выбранной специальности
+            //                int countMinLgota = abiturients["sp" + sp].Where(a => a.Lgota == minLgota).Count(); 
+            //                Abiturient a = null;
+            //                List<Abiturient> abiturientsWithMinLgots = null;
+
+            //                if (countMinLgota == 1)
             //                {
-            //                    Abiturient a = abiturients["sp" + sp].Where(a => a.Result == minResSp).LastOrDefault(); // находим абитуриента с минимальным баллом
-            //                    if (abiturientsLgota[j].Result > minResSp && !success.Contains(abiturientsLgota[j].Id)) // если балл текущего абитуриента больше чем вышеуказанного и текущий абитуриент еще не зачислен
+            //                    a = abiturients["sp" + sp].Where(a => a.Lgota == minLgota).LastOrDefault(); // находим абитуриента с минимальной льготой
+            //                }
+            //                else if (countMinLgota > 1)
+            //                {
+            //                    abiturientsWithMinLgots = abiturients["sp" + sp].Where(a => a.Lgota == minLgota).ToList();
+            //                    a = Abiturient.FindAbiturientWithLowerLgots(abiturientsWithMinLgots);
+            //                }
+
+            //                if (a != null) // если смогли найти абитуриента с минимальной льготой, то
+            //                {
+            //                    int res = Abiturient.CompareLgotsPower(abiturientsLgota[j], a); // сравниваем льготы абитуриентов
+            //                    if (res == 1) // если результат равен 1, то баллы текущего абитуриента выше, чем у абитуриента уже зачисленного
             //                    {
             //                        Methods<Abiturient>.RemoveLowerAddHigher(abiturients["sp" + sp], a, abiturientsLgota[j]); // заменяем абитуриента с меньшим баллом в списке зачисленных на абитуриента с высшим баллом
-            //                        Methods<int>.RemoveLowerAddHigher(success, a.Id, abiturientsLgota[j].Id); // заменяем id абитуриента с меньшим баллом на id абитуриента с большим баллом в списке зачисленных
+            //                        Methods<int>.RemoveLowerAddHigher(success, a.Id, abiturientsLgota[j].Id); // заменяем id абитуриента с меньшим баллом на id абитуриента с большим баллом в списке зачисленных                                                                      //Console.WriteLine(abiturientsLgota[j].Id + " - " + abiturientsLgota[j].FirstCT + " больше, чем " + a.Id + " - " + a.FirstCT);
             //                    }
-            //                    else if (abiturientsLgota[j].Result == minResSp && !success.Contains(abiturientsLgota[j].Id)) // если баллы абитуриентов равны, то сравниваем абитуриентов по правилам преимущественного зачисления
+            //                    // если у абитуриентов равные льготы, то сравниваем их по правилам преимущественного  зачисления для льготников без экзаменов
+            //                    else if (res == 0) 
             //                    {
-            //                        int res = Abiturient.CompareWhenEqualAmountLgota24(abiturientsLgota[j], a); // сравниваем все баллы абитуриентов
-            //                        if (res == 1) // если результат равен 1, то баллы текущего абитуриента выше, чем у абитуриента уже зачисленного
+            //                        int minResSp = abiturients["sp" + sp].Where(a => a.Lgota == minLgota).Min(a => a.FirstProfBallAtt); // находим минимальный балл по обществоведению в аттестате
+            //                        int countMinAbiturient = abiturients["sp" + sp].Where(a => a.Lgota == minLgota && a.FirstProfBallAtt == minResSp).Count(); // количество абитуриентов с минимальным баллом по обществоведению в аттестате
+            //                        if (countMinAbiturient == 1) // если количество абитуриентов на указанную специальность с минимальным баллом  равно 1
             //                        {
-            //                            Methods<Abiturient>.RemoveLowerAddHigher(abiturients["sp" + sp], a, abiturientsLgota[j]); // заменяем абитуриента с меньшим баллом в списке зачисленных на абитуриента с высшим баллом
-            //                            Methods<int>.RemoveLowerAddHigher(success, a.Id, abiturientsLgota[j].Id); // заменяем id абитуриента с меньшим баллом на id абитуриента с большим баллом в списке зачисленных
-            //                            //Console.WriteLine(abiturientsLgota[j].Id + " - " + abiturientsLgota[j].FirstCT + " больше, чем " + a.Id + " - " + a.FirstCT);
+            //                            Abiturient a1 = abiturients["sp" + sp].Where(a => a.FirstProfBallAtt == minResSp).LastOrDefault(); // находим абитуриента с минимальным баллом
+            //                            if (abiturientsLgota[j].FirstProfBallAtt >= minResSp && !success.Contains(abiturientsLgota[j].Id)) // если балл текущего абитуриента больше чем вышеуказанного и текущий абитуриент еще не зачислен
+            //                            {
+            //                                int res1 = Abiturient.CompareWhenEqualAmountLgota24(abiturientsLgota[j], a); // сравниваем все баллы абитуриентов
+            //                                if (res1 == 1) // если результат равен 1, то баллы текущего абитуриента выше, чем у абитуриента уже зачисленного
+            //                                {
+            //                                    Methods<Abiturient>.RemoveLowerAddHigher(abiturients["sp" + sp], a, abiturientsLgota[j]); // заменяем абитуриента с меньшим баллом в списке зачисленных на абитуриента с высшим баллом
+            //                                    Methods<int>.RemoveLowerAddHigher(success, a.Id, abiturientsLgota[j].Id); // заменяем id абитуриента с меньшим баллом на id абитуриента с большим баллом в списке зачисленных
+            //                                                                                                              //Console.WriteLine(abiturientsLgota[j].Id + " - " + abiturientsLgota[j].FirstCT + " больше, чем " + a.Id + " - " + a.FirstCT);
+            //                                }
+            //                                else if (res1 == 0)
+            //                                {
+            //                                    Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp + " у следующих абитуриентов:");
+            //                                    Console.WriteLine(abiturientsLgota[j].FIO + " " + abiturientsLgota[j].FirstProfBallAtt + " --- " + a.FIO + " - " + a.FirstProfBallAtt);
+            //                                    Console.Read();
+            //                                }
+            //                                else
+            //                                {
+            //                                    Console.WriteLine("Меньше");
+            //                                }
+            //                            }
             //                        }
-            //                        else if (res == 0)
+            //                        else if (countMinAbiturient > 1)
             //                        {
-            //                            Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp);
-            //                            Console.WriteLine(abiturientsLgota[j].FIO + " " + abiturientsLgota[j].Result + " --- " + a.FIO + " - " + a.Result);
-            //                            Console.Read();
-            //                        }
-            //                        else
-            //                        {
-            //                            Console.WriteLine("Меньше");
+            //                            List<Abiturient> abiturientsWithMinBalls = abiturients["sp" + sp].Where(a => a.FirstProfBallAtt == minResSp).ToList(); // получаем список абитуриентов с минимальным баллом
+
+            //                            Abiturient a1 = Abiturient.FindAbiturientWithLowerBalls24(abiturientsWithMinBalls); // получаем абитуриента из списка с минимальным баллом после проверки по правилам преимущественного зачисления
+            //                            if (a != null) // если смогли определить абитуриента с меньшим баллом, то
+            //                            {
+            //                                int res1 = Abiturient.CompareWhenEqualAmountLgota24(abiturientsLgota[j], a); // сравниваем текущего абитуриента с абитуриентом а
+            //                                if (res1 == 1) // если результат равен 1, то баллы текущего абитуриента выше, чем у абитуриента а
+            //                                {
+            //                                    Methods<Abiturient>.RemoveLowerAddHigher(abiturients["sp" + sp], a, abiturientsLgota[j]); // заменяем абитуриента с меньшим баллом в списке зачисленных на абитуриента с высшим баллом
+            //                                    Methods<int>.RemoveLowerAddHigher(success, a.Id, abiturientsLgota[j].Id); // заменяем id абитуриента с меньшим баллом на id абитуриента с большим баллом в списке зачисленных                                                         
+            //                                }
+            //                                else if (res1 == 0)
+            //                                {
+            //                                    Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp + " у следующих абитуриентов:");
+            //                                    Console.WriteLine(abiturientsLgota[j].FIO + " " + abiturientsLgota[j].FirstProfBallAtt + " --- " + a.FIO + " - " + a.FirstProfBallAtt);
+            //                                }
+            //                                else
+            //                                {
+            //                                    Console.WriteLine("Меньше");
+            //                                }
+            //                            }
+            //                            else
+            //                            {
+            //                                Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp + " у следующих абитуриентов:");
+            //                                for (int k = 0; k < abiturientsWithMinBalls.Count; k++)
+            //                                {
+            //                                    Console.WriteLine(abiturientsWithMinBalls[k].FIO + " - " + abiturientsWithMinBalls[k].FirstProfBallAtt + ";");
+            //                                }
+            //                            }
             //                        }
             //                    }
             //                }
-            //                else if (countMinAbiturient > 1)
+            //                else
             //                {
-            //                    List<Abiturient> abiturientsWithMinBalls = abiturients["sp" + sp].Where(a => a.Result == minResSp).ToList(); // получаем список абитуриентов с минимальным баллом
-
-            //                    Abiturient a = Abiturient.FindAbiturientWithLowerBalls24(abiturientsWithMinBalls); // получаем абитуриента из списка с минимальным баллом после проверки по правилам преимущественного зачисления
-            //                    int res = Abiturient.CompareWhenEqualAmountLgota24(abiturientsLgota[j], a); // сравниваем текущего абитуриента с абитуриентом а
-            //                    if (res == 1) // если результат равен 1, то баллы текущего абитуриента выше, чем у абитуриента а
+            //                    if (abiturientsWithMinLgots == null)
             //                    {
-            //                        Methods<Abiturient>.RemoveLowerAddHigher(abiturients["sp" + sp], a, abiturientsLgota[j]); // заменяем абитуриента с меньшим баллом в списке зачисленных на абитуриента с высшим баллом
-            //                        Methods<int>.RemoveLowerAddHigher(success, a.Id, abiturientsLgota[j].Id); // заменяем id абитуриента с меньшим баллом на id абитуриента с большим баллом в списке зачисленных                                                         
-            //                    }
-            //                    else if (res == 0)
-            //                    {
-            //                        Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp);
-            //                        Console.WriteLine(abiturientsLgota[j].FIO + " " + abiturientsLgota[j].Result + " --- " + a.FIO + " - " + a.Result);
-            //                        Console.Read();
+            //                        Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp + " у следующих абитуриентов:");
+            //                        Console.WriteLine(abiturientsLgota[j].FIO + " льгота - " + abiturientsLgota[j].Lgota + " --- " + a.FIO + " - " + a.Lgota);
             //                    }
             //                    else
             //                    {
-            //                        Console.WriteLine("Меньше");
+            //                        Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp + " у следующих абитуриентов:");
+            //                        for (int k = 0; k < abiturientsWithMinLgots.Count; k++)
+            //                        {
+            //                            Console.WriteLine(abiturientsWithMinLgots[k].FIO + " льгота - " + abiturientsWithMinLgots[k].Lgota + ";");
+            //                        }
             //                    }
             //                }
             //            }
             //        }
             //    }
             //}
-
-
-
-
-
-
-
-
 
 
 

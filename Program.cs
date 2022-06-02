@@ -253,6 +253,19 @@ namespace ConsoleApp2
             };
 
 
+            Dictionary<int, double> capacityLgots = new Dictionary<int, double>
+            {
+                [9] = 1,
+                [8] = 1,
+                [7] = 0.3,
+                [6] = 0.3,
+                [5] = 0.3,
+                [4] = 0.3,
+                [3] = 0.3,
+                [2] = 0.1,
+                [1] = 1.0,
+            };
+
 
 
             List<Abiturient> ab = new List<Abiturient>
@@ -352,15 +365,13 @@ namespace ConsoleApp2
             List<Abiturient> failed = new List<Abiturient>();
             List<int> success = new List<int>();
 
-            List<Abiturient> sp1 = new List<Abiturient>(1);
-            List<Abiturient> sp2 = new List<Abiturient>(4);
+            List<Abiturient> sp1 = new List<Abiturient>(10);
+            List<Abiturient> sp2 = new List<Abiturient>(10);
             Dictionary<string, List<Abiturient>> abiturients = new Dictionary<string, List<Abiturient>>()
             {
                 ["sp1"] = sp1,
                 ["sp2"] = sp2,
             };
-
-
 
             List<Abiturient> abiturientsLgota = ab.Where(a => a.Lgota >= 9).OrderByDescending(a => a.Lgota).ToList();
 
@@ -372,6 +383,16 @@ namespace ConsoleApp2
                     int lgota = abiturientsLgota[j].Lgota; // id льготы
                     if (sp != 0 && (lgots[lgota].Contains(sp) || lgots[lgota].Contains(9999))) // если специальность не равна 0 и льгота распространияется на указанную специальность и
                     {
+                        int capacity = 0;
+                        int capacityLgot = (int)Math.Round(abiturients["sp" + sp].Count + (abiturients["sp" + sp].Capacity * capacityLgots[lgota]));
+                        if (capacityLgot <= abiturients["sp" + sp].Capacity)
+                        {
+                            capacity = capacityLgot;
+                        }
+                        else
+                        {
+                            capacity = abiturients["sp" + sp].Capacity;
+                        }
                         if (abiturients["sp" + sp].Count < abiturients["sp" + sp].Capacity) // если количество абитуриетнов на указанную специальность  меньше количества выделенных мест и
                         {
                             if (!success.Contains(abiturientsLgota[j].Id)) // если текущий абитуриент еще не зачислен

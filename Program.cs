@@ -228,7 +228,11 @@ namespace ConsoleApp2
                     else
                     {
                         min = null;
-                        Console.WriteLine("Есть абитуриенты с равными баллами");
+                        Console.WriteLine("Есть абитуриенты с равными баллами, пользующимися льготой без экзаменов!");
+                        foreach (var ab in abs)
+                        {
+                            Console.WriteLine(ab.FIO + " " + ab.Result);
+                        }
                     }
                 }
             }
@@ -280,9 +284,9 @@ namespace ConsoleApp2
                     SecondCT = 100,
                     BallAttestat = 98,
                     Result = 297,
-                    Specialities = new int[]{ 1, 0 },
+                    Specialities = new int[]{ 1, 2 },
                     FirstProfBallAtt = 10,
-                    SecondProfBallAtt = 9,
+                    SecondProfBallAtt = 10,
                     RusBelSum = 14,
                     Ideas100ForRB = true,
                     KindHearth = true,
@@ -293,13 +297,13 @@ namespace ConsoleApp2
                     Id = 2,
                     FIO = "Петров Петр Петрович",
                     Sex = 1,
-                    Lgota = 9,
-                    FirstCT = 100,
+                    Lgota = 8,
+                    FirstCT = 98,
                     SecondCT = 100,
-                    BallAttestat = 100,
-                    Result = 300,
-                    Specialities = new int[]{ 1, 0 },
-                    FirstProfBallAtt = 9,
+                    BallAttestat = 98,
+                    Result = 297,
+                    Specialities = new int[]{ 1, 2 },
+                    FirstProfBallAtt = 10,
                     SecondProfBallAtt = 9,
                     RusBelSum = 14,
                     Ideas100ForRB = true,
@@ -311,12 +315,12 @@ namespace ConsoleApp2
                     Id = 3,
                     FIO = "Сидоров Сидор Сидорович",
                     Sex = 1,
-                    Lgota = 9,
-                    FirstCT = 100,
+                    Lgota = 8,
+                    FirstCT = 98,
                     SecondCT = 100,
-                    BallAttestat = 100,
-                    Result = 300,
-                    Specialities = new int[]{ 1, 0 },
+                    BallAttestat = 98,
+                    Result = 297,
+                    Specialities = new int[]{ 1, 2 },
                     FirstProfBallAtt = 9,
                     SecondProfBallAtt = 9,
                     RusBelSum = 14,
@@ -329,14 +333,15 @@ namespace ConsoleApp2
                     Id = 4,
                     FIO = "Степанов Степан Степанович",
                     Sex = 1,
-                    Lgota = 7,
-                    FirstCT = 100,
-                    SecondCT = 50,
-                    BallAttestat = 75,
-                    Result = 225,
+                    Lgota = 8,
+                    FirstCT = 98,
+                    SecondCT = 100,
+                    BallAttestat = 98,
+                    Result = 297,
                     Specialities = new int[]{ 1, 2 },
                     FirstProfBallAtt = 8,
-                    SecondProfBallAtt = 9,
+                    SecondProfBallAtt = 8,
+                    RusBelSum = 14,
                     Ideas100ForRB = true,
                     KindHearth = true,
                     MOOP = true,
@@ -346,14 +351,15 @@ namespace ConsoleApp2
                     Id = 5,
                     FIO = "Макаров Макар Макарович",
                     Sex = 1,
-                    Lgota = 7,
-                    FirstCT = 30,
-                    SecondCT = 60,
-                    BallAttestat = 55,
-                    Result = 145,
+                    Lgota = 9,
+                    FirstCT = 98,
+                    SecondCT = 100,
+                    BallAttestat = 98,
+                    Result = 297,
                     Specialities = new int[]{ 1, 2 },
-                    FirstProfBallAtt = 6,
-                    SecondProfBallAtt = 6,
+                    FirstProfBallAtt = 7,
+                    SecondProfBallAtt = 9,
+                    RusBelSum = 14,
                     Ideas100ForRB = true,
                     KindHearth = true,
                     MOOP = true,
@@ -365,15 +371,15 @@ namespace ConsoleApp2
             List<Abiturient> failed = new List<Abiturient>();
             List<int> success = new List<int>();
 
-            List<Abiturient> sp1 = new List<Abiturient>(10);
-            List<Abiturient> sp2 = new List<Abiturient>(10);
+            List<Abiturient> sp1 = new List<Abiturient>(2);
+            List<Abiturient> sp2 = new List<Abiturient>(2);
             Dictionary<string, List<Abiturient>> abiturients = new Dictionary<string, List<Abiturient>>()
             {
                 ["sp1"] = sp1,
                 ["sp2"] = sp2,
             };
 
-            List<Abiturient> abiturientsLgota = ab.Where(a => a.Lgota >= 9).OrderByDescending(a => a.Lgota).ToList();
+            List<Abiturient> abiturientsLgota = ab.Where(a => a.Lgota != 0).OrderByDescending(a => a.Lgota).ToList();
 
             for (int i = 0; i < 2; i++)
             {
@@ -403,13 +409,12 @@ namespace ConsoleApp2
                         }
                         else
                         {
-
-                            int minResSp = abiturients["sp" + sp].Min(a => a.Result); // находим минимальный общий результат
-                            int countMinAbiturient = abiturients["sp" + sp].Where(a => a.Result == minResSp).Count(); // количество абитуриентов с минимальным баллом
+                            int minResSp = abiturients["sp" + sp].Min(a => a.FirstProfBallAtt); // находим минимальный общий результат
+                            int countMinAbiturient = abiturients["sp" + sp].Where(a => a.FirstProfBallAtt == minResSp).Count(); // количество абитуриентов с минимальным баллом
                             if (countMinAbiturient == 1) // если количество абитуриентов на указанную специальность с минимальным баллом  равно 1
                             {
-                                Abiturient a = abiturients["sp" + sp].Where(a => a.Result == minResSp).LastOrDefault(); // находим абитуриента с минимальным баллом
-                                if (abiturientsLgota[j].Result > minResSp && !success.Contains(abiturientsLgota[j].Id)) // если балл текущего абитуриента больше чем вышеуказанного и текущий абитуриент еще не зачислен
+                                Abiturient a = abiturients["sp" + sp].Where(a => a.FirstProfBallAtt == minResSp).LastOrDefault(); // находим абитуриента с минимальным баллом
+                                if (abiturientsLgota[j].FirstProfBallAtt > minResSp && !success.Contains(abiturientsLgota[j].Id)) // если балл текущего абитуриента больше чем вышеуказанного и текущий абитуриент еще не зачислен
                                 {
                                     Methods<Abiturient>.RemoveLowerAddHigher(abiturients["sp" + sp], a, abiturientsLgota[j]); // заменяем абитуриента с меньшим баллом в списке зачисленных на абитуриента с высшим баллом
                                     Methods<int>.RemoveLowerAddHigher(success, a.Id, abiturientsLgota[j].Id); // заменяем id абитуриента с меньшим баллом на id абитуриента с большим баллом в списке зачисленных
@@ -426,35 +431,33 @@ namespace ConsoleApp2
                                     else if (res == 0)
                                     {
                                         Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp);
-                                        Console.WriteLine(abiturientsLgota[j].FIO + " " + abiturientsLgota[j].Result + " --- " + a.FIO + " - " + a.Result);
+                                        Console.WriteLine(abiturientsLgota[j].FIO + " " + abiturientsLgota[j].FirstProfBallAtt + " --- " + a.FIO + " - " + a.FirstProfBallAtt);
                                         Console.Read();
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Меньше");
                                     }
                                 }
                             }
                             else if (countMinAbiturient > 1)
                             {
-                                List<Abiturient> abiturientsWithMinBalls = abiturients["sp" + sp].Where(a => a.Result == minResSp).ToList(); // получаем список абитуриентов с минимальным баллом
-
+                                List<Abiturient> abiturientsWithMinBalls = abiturients["sp" + sp].Where(a => a.FirstProfBallAtt == minResSp).ToList(); // получаем список абитуриентов с минимальным баллом
                                 Abiturient a = Abiturient.FindAbiturientWithLowerBalls24(abiturientsWithMinBalls); // получаем абитуриента из списка с минимальным баллом после проверки по правилам преимущественного зачисления
-                                int res = Abiturient.CompareWhenEqualAmountLgota24(abiturientsLgota[j], a); // сравниваем текущего абитуриента с абитуриентом а
-                                if (res == 1) // если результат равен 1, то баллы текущего абитуриента выше, чем у абитуриента а
+                                if(a != null)
                                 {
-                                    Methods<Abiturient>.RemoveLowerAddHigher(abiturients["sp" + sp], a, abiturientsLgota[j]); // заменяем абитуриента с меньшим баллом в списке зачисленных на абитуриента с высшим баллом
-                                    Methods<int>.RemoveLowerAddHigher(success, a.Id, abiturientsLgota[j].Id); // заменяем id абитуриента с меньшим баллом на id абитуриента с большим баллом в списке зачисленных                                                         
-                                }
-                                else if (res == 0)
-                                {
-                                    Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp);
-                                    Console.WriteLine(abiturientsLgota[j].FIO + " " + abiturientsLgota[j].Result + " --- " + a.FIO + " - " + a.Result);
-                                    Console.Read();
+                                    int res = Abiturient.CompareWhenEqualAmountLgota24(abiturientsLgota[j], a); // сравниваем текущего абитуриента с абитуриентом а
+                                    if (res == 1) // если результат равен 1, то баллы текущего абитуриента выше, чем у абитуриента а
+                                    {
+                                        Methods<Abiturient>.RemoveLowerAddHigher(abiturients["sp" + sp], a, abiturientsLgota[j]); // заменяем абитуриента с меньшим баллом в списке зачисленных на абитуриента с высшим баллом
+                                        Methods<int>.RemoveLowerAddHigher(success, a.Id, abiturientsLgota[j].Id); // заменяем id абитуриента с меньшим баллом на id абитуриента с большим баллом в списке зачисленных                                                         
+                                    }
+                                    else if (res == 0)
+                                    {
+                                        Console.WriteLine("Необходимо участие члена приемной комиссии - равные баллы при зачислении на специальность " + sp);
+                                        Console.WriteLine(abiturientsLgota[j].FIO + " " + abiturientsLgota[j].FirstProfBallAtt + " --- " + a.FIO + " - " + a.FirstProfBallAtt);
+                                        Console.Read();
+                                    }
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Меньше");
+                                    break;
                                 }
                             }
                         }
